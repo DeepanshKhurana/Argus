@@ -2,5 +2,7 @@
 library(glue)
 library(httr2)
 library(reactable)
+library(reactable.extras)
 library(rhino)
 library(usethis)
+library(yaml)
