@@ -1,0 +1,12 @@
+Ebenezer:
+  ebenezer_deposits
+  ebenezer_funds
+  ebenezer_mmtc
+  ebenezer_savings
+  ebenezer_sgbs
+  ebenezer_stocks
+Livingston:
+  livingston_details
+  livingston_trips
+Test:
+  test_table
