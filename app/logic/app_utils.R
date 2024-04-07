@@ -26,9 +26,6 @@ process_table_data <- function(
   sapply(api_table_response, data.frame) |>
     t() |>
     data.frame() |>
-    select(
-      id, everything()
-    ) |>
     mutate(
       edit = "Edit",
       delete = "Delete"

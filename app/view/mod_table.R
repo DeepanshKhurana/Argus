@@ -18,7 +18,8 @@ box::use(
     reactable,
     renderReactable,
     reactableOutput,
-    colDef
+    colDef,
+    updateReactable
   ],
   reactable.extras[
     reactable_extras_dependency,
@@ -37,7 +38,8 @@ box::use(
 
 box::use(
   app/logic/api_utils[get_data, delete_row, put_row],
-  app/logic/app_utils[process_table_data]
+  app/logic/app_utils[process_table_data],
+  app/view/mod_put
 )
 
 #' @export
@@ -45,7 +47,14 @@ ui <- function(id) {
   ns <- NS(id)
   div(
     reactable_extras_dependency(),
-    reactableOutput(ns("selected_table_data"))
+    actionButton(
+      ns("create"),
+      label = "Create",
+      icon = icon("plus")
+    ),
+    reactableOutput(
+      ns("selected_table_data")
+    )
   )
 
 }
@@ -82,75 +91,34 @@ server <- function(id, selected_table_name) {
       )
     })
 
-    # Edit Functionality ---
+    # Create Functionality ---
 
-    observeEvent(input$cancel, {
-      removeModal()
-    })
+    observeEvent(input$create, {
 
-    observeEvent(input$save, {
-
-      id <- table_data()[input$edit$row, ]$id
-
-      column_names <- names(
-        table_data() |>
-          select(-c(id, edit, delete))
+      mod_put$server(
+        "create_modal",
+        table_data = table_data() |>
+          select(-c(edit, delete)),
+        selected_table_name = selected_table_name,
+        is_update = FALSE
       )
 
-      update_data <- lapply(
-        column_names,
-        function(col_name) {
-          input[[glue("edit_data-{col_name}")]]
-        }
-      )
+    }, ignoreNULL = TRUE, ignoreInit = TRUE)
 
-      put_row(
-        table_name = selected_table_name(),
-        id |> unlist(),
-        update_data |> unlist(),
-        is_update = TRUE
-      )
-
-      removeModal()
-
-    })
+    # Edit Functionality ----
 
     observeEvent(input$edit, {
 
       row <- table_data()[input$edit$row, ] |>
         select(-c(edit, delete))
 
-      showModal(
-        modalDialog(
-          title = "Selected row data",
-          easyClose = TRUE,
-          footer = div(
-            actionButton(
-              ns("cancel"),
-              "Cancel",
-              icon = icon("close")
-            ),
-            actionButton(
-              ns("save"),
-              "Save",
-              icon = icon("save")
-            )
-          ),
-          do.call(
-            tagList,
-            lapply(
-              names(row),
-              function(col_name) {
-                textInput(
-                  inputId = ns(glue("edit_data-{col_name}")),
-                  label = col_name,
-                  value = row[[col_name]]
-                )
-              }
-            )
-           )
-          )
-        )
+      mod_put$server(
+        "edit_modal",
+        table_data = row,
+        selected_table_name = selected_table_name,
+        is_update = TRUE
+      )
+
     }, ignoreNULL = TRUE, ignoreInit = TRUE)
 
     # Delete Functionality ---
@@ -162,17 +130,13 @@ server <- function(id, selected_table_name) {
         row_key = as.integer(table_data()[input$delete$row, ]$id)
       )
 
-      table_data <- reactive({
-        process_table_data(
+      updateReactable(
+        "selected_table_data",
+        data = process_table_data(
           get_data(
             selected_table_name()
           )
         )
-      })
-
-      reactable::updateReactable(
-        "selected_table_data",
-        data = table_data()
       )
 
     }, ignoreNULL = TRUE, ignoreInit = TRUE)
