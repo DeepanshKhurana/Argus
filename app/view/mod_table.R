@@ -103,7 +103,7 @@ server <- function(id, selected_table_name) {
         is_update = FALSE
       )
 
-    }, ignoreNULL = TRUE, ignoreInit = TRUE)
+    })
 
     # Edit Functionality ----
 
@@ -119,7 +119,7 @@ server <- function(id, selected_table_name) {
         is_update = TRUE
       )
 
-    }, ignoreNULL = TRUE, ignoreInit = TRUE)
+    })
 
     # Delete Functionality ---
 
@@ -139,7 +139,7 @@ server <- function(id, selected_table_name) {
         )
       )
 
-    }, ignoreNULL = TRUE, ignoreInit = TRUE)
+    })
 
   })
 }

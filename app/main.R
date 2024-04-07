@@ -63,7 +63,7 @@ server <- function(id) {
         "selected_table",
         selected_table_name
       )
-    }, ignoreNULL = TRUE, ignoreInit = FALSE)
+    })
 
   })
 }
