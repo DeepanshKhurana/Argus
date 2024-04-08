@@ -32,7 +32,7 @@ server <- function(
       shiny$modalDialog(
         title = "Selected row data",
         easyClose = TRUE,
-        footer = div(
+        footer = shiny$div(
           shiny$actionButton(
             ns("cancel"),
             "Cancel",
