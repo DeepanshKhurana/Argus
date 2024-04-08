@@ -6,10 +6,14 @@ box::use(
   dplyr[
     select
   ],
+  reactable[
+    updateReactable
+  ],
 )
 
 box::use(
-  app/logic/api_utils[put_row],
+  app/logic/api_utils[get_data, put_row],
+  app/logic/app_utils[process_table_data],
 )
 
 #' @export
@@ -22,7 +26,8 @@ server <- function(
   id,
   table_data,
   selected_table_name,
-  is_update = FALSE
+  is_update = FALSE,
+  reload_table = FALSE
 ) {
   shiny$moduleServer(id, function(input, output, session) {
 
@@ -96,6 +101,8 @@ server <- function(
         update_data |> unlist(),
         is_update = is_update
       )
+
+      reload_table(TRUE)
 
       shiny$removeModal()
 

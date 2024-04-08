@@ -8,7 +8,6 @@ box::use(
     updateReactable
   ],
   reactable.extras[
-    reactable_extras_dependency,
     button_extra
   ],
   dplyr[
@@ -32,7 +31,6 @@ box::use(
 ui <- function(id) {
   ns <- shiny$NS(id)
   shiny$div(
-    reactable_extras_dependency(),
     shiny$actionButton(
       ns("create"),
       label = "Create",
@@ -77,6 +75,8 @@ server <- function(id, selected_table_name) {
       )
     })
 
+    reload_table <- shiny$reactiveVal(FALSE)
+
     # Create Functionality ---
 
     shiny$observeEvent(input$create, {
@@ -86,10 +86,11 @@ server <- function(id, selected_table_name) {
         table_data = table_data() |>
           select(-c(edit, delete)),
         selected_table_name = selected_table_name,
-        is_update = FALSE
+        is_update = FALSE,
+        reload_table = reload_table
       )
 
-    })
+    }, ignoreNULL = TRUE, ignoreInit = TRUE)
 
     # Edit Functionality ----
 
@@ -102,10 +103,11 @@ server <- function(id, selected_table_name) {
         "edit_modal",
         table_data = row,
         selected_table_name = selected_table_name,
-        is_update = TRUE
+        is_update = TRUE,
+        reload_table = reload_table
       )
 
-    })
+    }, ignoreNULL = TRUE, ignoreInit = TRUE)
 
     # Delete Functionality ---
 
@@ -116,16 +118,35 @@ server <- function(id, selected_table_name) {
         row_key = as.integer(table_data()[input$delete$row, ]$id)
       )
 
-      updateReactable(
-        "selected_table_data",
-        data = process_table_data(
-          get_data(
-            selected_table_name()
-          )
-        )
-      )
+      reload_table(TRUE)
 
-    })
+    }, ignoreNULL = TRUE, ignoreInit = TRUE)
+
+    # Reload Functionality ----
+
+    shiny$observeEvent(reload_table(), {
+
+      if (reload_table()) {
+
+        table_data <- shiny$reactive({
+          process_table_data(
+            get_data(
+              selected_table_name()
+            )
+          )
+        })
+
+        updateReactable(
+          session = session,
+          outputId = "selected_table_data",
+          data = table_data()
+        )
+
+        reload_table(FALSE)
+
+      }
+
+    }, ignoreNULL = FALSE)
 
   })
 }

@@ -1,5 +1,8 @@
 box::use(
   shiny,
+  reactable.extras[
+    reactable_extras_dependency
+  ]
 )
 
 box::use(
@@ -11,6 +14,7 @@ box::use(
 ui <- function(id) {
   ns <- shiny$NS(id)
   shiny$fluidPage(
+    reactable_extras_dependency(),
     class = "argus-body",
     shiny$div(
       class = "argus-header",
@@ -46,7 +50,7 @@ server <- function(id) {
         "selected_table",
         selected_table_name
       )
-    })
+    }, ignoreNULL = TRUE, once = TRUE)
 
   })
 }
