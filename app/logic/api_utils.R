@@ -9,7 +9,7 @@ box::use(
   ],
   glue[
     glue
-  ]
+  ],
 )
 
 #' Make an API endpoint URL
@@ -86,8 +86,8 @@ get_data <- function(
 #' Deletes a row from a table in the API.
 #' @param table_name A character string specifying the name of the table.
 #' @param row_key A character string specifying the key of the row to delete.
-#' @param show_old A logical value indicating whether to include the old row data in the response (optional, default is TRUE).
-#' @return A JSON object representing the response from the API after deleting the row.
+#' @param show_old A logical value indicating whether to include the old row
+#' @return A JSON object for the response from the API after deleting the row.
 #' @export
 delete_row <- function(
   table_name = NULL,
@@ -112,10 +112,10 @@ delete_row <- function(
 #' Put a row into a table
 #' Creates or updates a row in a table in the API.
 #' @param table_name A character string specifying the name of the table.
-#' @param ... Unnamed values representing the columns and values to put into the table.
-#' @param show_old A logical value indicating whether to include the old row data in the response (optional, default is TRUE).
-#' @param is_update A logical value indicating whether the operation is an update (optional, default is FALSE).
-#' @return A JSON object representing the response from the API after putting the row.
+#' @param ... Unnamed values for the columns and values to put into the table.
+#' @param show_old A logical value indicating whether to include the old row
+#' @param is_update A logical value indicating whether to update
+#' @return A JSON object for the response from the API after putting the row.
 #' @export
 put_row <- function(
   table_name = NULL,

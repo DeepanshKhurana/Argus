@@ -7,11 +7,11 @@ box::use(
     p,
     observeEvent,
     updateSelectInput
-  ]
+  ],
 )
 
 box::use(
-  app/logic/app_utils[get_table_list]
+  app/logic/app_utils[get_table_list],
 )
 
 choices <- get_table_list()

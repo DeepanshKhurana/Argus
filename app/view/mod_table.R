@@ -1,19 +1,5 @@
 box::use(
-  shiny[
-    moduleServer,
-    NS,
-    div,
-    req,
-    observeEvent,
-    showModal,
-    removeModal,
-    modalDialog,
-    reactive,
-    tagList,
-    textInput,
-    actionButton,
-    icon
-  ],
+  shiny,
   reactable[
     reactable,
     renderReactable,
@@ -33,24 +19,24 @@ box::use(
   ],
   glue[
     glue
-  ]
+  ],
 )
 
 box::use(
   app/logic/api_utils[get_data, delete_row, put_row],
   app/logic/app_utils[process_table_data],
-  app/view/mod_put
+  app/view/mod_put,
 )
 
 #' @export
 ui <- function(id) {
-  ns <- NS(id)
-  div(
+  ns <- shiny$NS(id)
+  shiny$div(
     reactable_extras_dependency(),
-    actionButton(
+    shiny$actionButton(
       ns("create"),
       label = "Create",
-      icon = icon("plus")
+      icon = shiny$icon("plus")
     ),
     reactableOutput(
       ns("selected_table_data")
@@ -61,13 +47,13 @@ ui <- function(id) {
 
 #' @export
 server <- function(id, selected_table_name) {
-  moduleServer(id, function(input, output, session) {
+  shiny$moduleServer(id, function(input, output, session) {
 
     ns <- session$ns
 
-    req(selected_table_name())
+    shiny$req(selected_table_name())
 
-    table_data <- reactive({
+    table_data <- shiny$reactive({
       process_table_data(get_data(selected_table_name()))
     })
 
@@ -93,7 +79,7 @@ server <- function(id, selected_table_name) {
 
     # Create Functionality ---
 
-    observeEvent(input$create, {
+    shiny$observeEvent(input$create, {
 
       mod_put$server(
         "create_modal",
@@ -107,7 +93,7 @@ server <- function(id, selected_table_name) {
 
     # Edit Functionality ----
 
-    observeEvent(input$edit, {
+    shiny$observeEvent(input$edit, {
 
       row <- table_data()[input$edit$row, ] |>
         select(-c(edit, delete))
@@ -123,7 +109,7 @@ server <- function(id, selected_table_name) {
 
     # Delete Functionality ---
 
-    observeEvent(input$delete, {
+    shiny$observeEvent(input$delete, {
 
       delete_row(
         table_name = selected_table_name(),

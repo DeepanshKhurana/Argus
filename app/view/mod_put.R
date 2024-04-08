@@ -1,34 +1,20 @@
 box::use(
-  shiny[
-    moduleServer,
-    NS,
-    tagList,
-    showModal,
-    modalDialog,
-    renderUI,
-    uiOutput,
-    observeEvent,
-    textInput,
-    div,
-    actionButton,
-    icon,
-    removeModal
-  ],
+  shiny,
   glue[
     glue
   ],
   dplyr[
     select
-  ]
+  ],
 )
 
 box::use(
-  app/logic/api_utils[put_row]
+  app/logic/api_utils[put_row],
 )
 
 #' @export
 ui <- function(id) {
-  ns <- NS(id)
+  ns <- shiny$NS(id)
 }
 
 #' @export
@@ -38,32 +24,32 @@ server <- function(
   selected_table_name,
   is_update = FALSE
 ) {
-  moduleServer(id, function(input, output, session) {
+  shiny$moduleServer(id, function(input, output, session) {
 
     ns <- session$ns
 
-    showModal(
-      modalDialog(
+    shiny$showModal(
+      shiny$modalDialog(
         title = "Selected row data",
         easyClose = TRUE,
         footer = div(
-          actionButton(
+          shiny$actionButton(
             ns("cancel"),
             "Cancel",
-            icon = icon("close")
+            icon = shiny$icon("close")
           ),
-          actionButton(
+          shiny$actionButton(
             ns("save"),
             "Save",
-            icon = icon("save")
+            icon = shiny$icon("save")
           )
         ),
         do.call(
-          tagList,
+          shiny$tagList,
           lapply(
             names(table_data[1, ]),
             function(col_name) {
-              textInput(
+              shiny$textInput(
                 inputId = ns(glue("data-{col_name}")),
                 label = col_name,
                 value = ifelse(
@@ -80,13 +66,13 @@ server <- function(
 
     # Cancel ---
 
-    observeEvent(input$cancel, {
-      removeModal()
+    shiny$observeEvent(input$cancel, {
+      shiny$removeModal()
     })
 
     # Save ----
 
-    observeEvent(input$save, {
+    shiny$observeEvent(input$save, {
 
       column_names <- names(
         table_data
@@ -111,7 +97,7 @@ server <- function(
         is_update = is_update
       )
 
-      removeModal()
+      shiny$removeModal()
 
     })
 

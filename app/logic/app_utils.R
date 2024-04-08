@@ -5,7 +5,7 @@ box::use(
   dplyr[
     mutate,
     select
-  ]
+  ],
 )
 
 #' Get the list of tables updated in tables.yml
