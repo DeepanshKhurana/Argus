@@ -11,11 +11,9 @@ ui <- function(id) {
   ns <- shiny$NS(id)
   shiny$fluidPage(
     class = "argus",
-    shiny$div(
+    shiny$h1(
       class = "argus-header",
-      shiny$h1(
-        "Argus"
-      )
+      "Argus"
     ),
     mod_selector$ui(ns("selector")),
     shiny$div(
