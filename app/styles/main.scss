@@ -1,14 +1,53 @@
-.argus-body {
+.argus {
   .argus-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 20px;
   }
 
   .argus-filter-area {
     display: flex;
     text-align: center;
     justify-content: center;
-    align-items: center;
+    gap: 10px;
+
+    input[type="number"] {
+      width: 48px;
+    }
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      opacity: 1;
+      margin-left: 5px;
+    }
+
+    .selectize-dropdown {
+      width: fit-content !important;
+      text-align: left;
+      border-radius: 0;
+      border: 0;
+    }
+
+    .shiny-input-container,
+    .shiny-text-output {
+      width: fit-content;
+    }
+
+    .form-control,
+    .selectize-input,
+    .selectize-input > .item {
+      all: unset;
+      text-decoration: underline dotted;
+    }
+
+    .selectize-input::after {
+      content: none !important;
+    }
+
+    .has-error {
+      text-decoration-color: #a94442 !important;
+      color: #a94442 !important;
+    }
   }
 }

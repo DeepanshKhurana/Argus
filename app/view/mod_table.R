@@ -113,12 +113,24 @@ server <- function(id, selected_table_name) {
 
     shiny$observeEvent(input$delete, {
 
+      table_data <- shiny$reactive({
+        process_table_data(
+          get_data(
+            selected_table_name()
+          )
+        )
+      })
+
+      updateReactable(
+        session = session,
+        outputId = "selected_table_data",
+        data = table_data()
+      )
+
       delete_row(
         table_name = selected_table_name(),
         row_key = as.integer(table_data()[input$delete$row, ]$id)
       )
-
-      reload_table(TRUE)
 
     }, ignoreNULL = TRUE, ignoreInit = TRUE)
 
@@ -146,7 +158,7 @@ server <- function(id, selected_table_name) {
 
       }
 
-    }, ignoreNULL = FALSE)
+    }, ignoreNULL = FALSE, ignoreInit = TRUE)
 
   })
 }
