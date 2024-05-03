@@ -1,10 +1,15 @@
 @import "selector";
 
 .argus {
+
+  hr {
+    width: 60%;
+  }
+
   .argus-header {
     display: flex;
     text-align: center;
-    font-size: 34px;
+    margin-top: 20px;
     margin-bottom: 40px;
     justify-content: center;
     align-items: center;
@@ -14,8 +19,9 @@
       cursor: pointer;
     }
 
-    p {
-      margin: 0;
+    i {
+      font-size: 24px;
+      margin-top: 10px;
     }
   }
 }

@@ -57,15 +57,16 @@ ui <- function(id) {
     textOutput(
       ns("total_rows")
     ),
-    selectInput(
-      inputId = ns("table"),
-      choices = choices$tables[["Test"]],
-      label = NULL
-    ),
-    p("from"),
+    p("entries from"),
     selectInput(
       inputId = ns("application"),
       choices = sort(choices$applications, decreasing = TRUE),
+      label = NULL
+    ),
+    p("—"),
+    selectInput(
+      inputId = ns("table"),
+      choices = choices$tables[["Test"]],
       label = NULL
     ),
     actionButton(
@@ -111,7 +112,7 @@ server <- function(id, selected) {
       selected$table_name <- input$table
       selected$row <- input$row
       selected$operation <- input$operation
-      selected$table_data <- table_data()
+      selected$table_data <- table_data
     })
 
     observeEvent(table_data(), {

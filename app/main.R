@@ -3,7 +3,8 @@ box::use(
 )
 
 box::use(
-  app/view/mod_selector,
+  app/view/mod_view_selector,
+  app/view/mod_add_selector,
 )
 
 #' @export
@@ -17,11 +18,12 @@ ui <- function(id) {
         "eye",
         class = "fa-solid argus-icon"
       ),
-      shiny$p(
+      shiny$h1(
         "Argus"
       )
     ),
-    mod_selector$ui(ns("selector")),
+    shiny$uiOutput(ns("selector_ui")),
+    shiny$hr(),
     shiny$div(
       class = "argus-data-area"
     )
@@ -41,18 +43,44 @@ server <- function(id) {
       table_data = NULL
     )
 
-    mod_selector$server(
-      "selector",
-      selected
-    )
-
     shiny$observeEvent(selected$table_data, {
       # Code Here
     })
 
     shiny$observeEvent(input$app_mode, {
-      # Code Here
-    })
+
+      if (input$app_mode == "view" || is.null(input$app_mode)) {
+
+        output$selector_ui <- shiny$renderUI({
+
+          mod_view_selector$server(
+            "selector",
+            selected
+          )
+
+          mod_view_selector$ui(
+            ns("selector")
+          )
+
+        })
+
+      } else {
+
+        output$selector_ui <- shiny$renderUI({
+
+          mod_add_selector$server(
+            "selector",
+            selected
+          )
+
+          mod_add_selector$ui(
+            ns("selector")
+          )
+
+        })
+
+      }
+    }, ignoreInit = FALSE, ignoreNULL = FALSE)
 
   })
 }
