@@ -1,24 +1,9 @@
 box::use(
-  shiny[
-    moduleServer,
-    NS,
-    div,
-    selectInput,
-    p,
-    observeEvent,
-    updateSelectInput,
-    eventReactive,
-    textOutput,
-    renderText,
-    numericInput,
-    updateNumericInput,
-    actionButton,
-    icon
-  ],
+  shiny,
   shinyvalidate[
     InputValidator,
     sv_lte
-  ]
+  ],
 )
 
 box::use(
@@ -35,10 +20,10 @@ choices <- get_table_list()
 
 #' @export
 ui <- function(id) {
-  ns <- NS(id)
-  div(
+  ns <- shiny$NS(id)
+  shiny$div(
     class = "argus-filter-area",
-    selectInput(
+    shiny$selectInput(
       inputId = ns("operation"),
       choices = c(
         "Viewing" = "viewing",
@@ -46,33 +31,33 @@ ui <- function(id) {
       ),
       label = NULL
     ),
-    numericInput(
+    shiny$numericInput(
       inputId = ns("row"),
       min = 1,
       max = 1,
       value = 1,
       label = NULL
     ),
-    p("of"),
-    textOutput(
+    shiny$p("of"),
+    shiny$textOutput(
       ns("total_rows")
     ),
-    p("entries from"),
-    selectInput(
+    shiny$p("entries from"),
+    shiny$selectInput(
       inputId = ns("application"),
       choices = sort(choices$applications, decreasing = TRUE),
       label = NULL
     ),
-    p("—"),
-    selectInput(
+    shiny$p("—"),
+    shiny$selectInput(
       inputId = ns("table"),
       choices = choices$tables[["Test"]],
       label = NULL
     ),
-    actionButton(
+    shiny$actionButton(
       inputId = ns("go"),
       label = NULL,
-      icon = icon("arrow-right"),
+      icon = shiny$icon("arrow-right"),
       class = "go-button"
     )
   )
@@ -80,17 +65,17 @@ ui <- function(id) {
 
 #' @export
 server <- function(id, selected) {
-  moduleServer(id, function(input, output, session) {
+  shiny$moduleServer(id, function(input, output, session) {
 
-    observeEvent(input$application, {
-      updateSelectInput(
+    shiny$observeEvent(input$application, {
+      shiny$updateSelectInput(
         session = session,
         "table",
         choices = choices$tables[[input$application]]
       )
     })
 
-    table_data <- eventReactive(input$table, {
+    table_data <- shiny$eventReactive(input$table, {
       process_table_data(
         get_data(
           input$table
@@ -98,7 +83,7 @@ server <- function(id, selected) {
       )
     })
 
-    observeEvent(input$row, {
+    shiny$observeEvent(input$row, {
       if (is.na(input$row)) {
         updateNumericInput(
           session = session,
@@ -108,18 +93,18 @@ server <- function(id, selected) {
       }
     })
 
-    observeEvent(input$go, {
+    shiny$observeEvent(input$go, {
       selected$table_name <- input$table
       selected$row <- input$row
       selected$operation <- input$operation
       selected$table_data <- table_data
     })
 
-    observeEvent(table_data(), {
+    shiny$observeEvent(table_data(), {
 
       total <- nrow(table_data())
 
-      updateNumericInput(
+      shiny$updateNumericInput(
         session = session,
         "row",
         max = total
@@ -129,7 +114,7 @@ server <- function(id, selected) {
       iv$add_rule("row", sv_lte(total, message = ""))
       iv$enable()
 
-      output$total_rows <- renderText({
+      output$total_rows <- shiny$renderText({
         total
       })
 

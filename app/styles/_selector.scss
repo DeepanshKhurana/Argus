@@ -25,6 +25,10 @@
     width: fit-content;
   }
 
+  .selectize-dropdown .selected {
+    background-color: #444;
+  }
+
   .form-control,
   .selectize-input,
   .selectize-input > .item {

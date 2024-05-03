@@ -1,24 +1,9 @@
 box::use(
-  shiny[
-    moduleServer,
-    NS,
-    div,
-    selectInput,
-    p,
-    observeEvent,
-    updateSelectInput,
-    eventReactive,
-    textOutput,
-    renderText,
-    numericInput,
-    updateNumericInput,
-    actionButton,
-    icon
-  ],
+  shiny,
   shinyvalidate[
     InputValidator,
     sv_lte
-  ]
+  ],
 )
 
 box::use(
@@ -35,25 +20,25 @@ choices <- get_table_list()
 
 #' @export
 ui <- function(id) {
-  ns <- NS(id)
-  div(
+  ns <- shiny$NS(id)
+  shiny$div(
     class = "argus-filter-area",
-    p("Adding new entry to"),
-    selectInput(
+    shiny$p("Adding new entry to"),
+    shiny$selectInput(
       inputId = ns("application"),
       choices = sort(choices$applications, decreasing = TRUE),
       label = NULL
     ),
-    p("—"),
-    selectInput(
+    shiny$p("—"),
+    shiny$selectInput(
       inputId = ns("table"),
       choices = choices$tables[["Test"]],
       label = NULL
     ),
-    actionButton(
+    shiny$actionButton(
       inputId = ns("go"),
       label = NULL,
-      icon = icon("arrow-right"),
+      icon = shiny$icon("arrow-right"),
       class = "go-button"
     )
   )
@@ -61,10 +46,10 @@ ui <- function(id) {
 
 #' @export
 server <- function(id, selected) {
-  moduleServer(id, function(input, output, session) {
+  shiny$moduleServer(id, function(input, output, session) {
 
-    observeEvent(input$application, {
-      updateSelectInput(
+    shiny$observeEvent(input$application, {
+      shiny$updateSelectInput(
         session = session,
         "table",
         choices = choices$tables[[input$application]]
