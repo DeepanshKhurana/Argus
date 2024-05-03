@@ -30,13 +30,19 @@ server <- function(id) {
 
     selected <- shiny$reactiveValues(
       table_name = NULL,
-      row = NULL
+      row = NULL,
+      operation = NULL,
+      table_data = NULL
     )
 
     mod_selector$server(
       "selector",
       selected
     )
+
+    shiny$observeEvent(selected$table_data, {
+      # Code Here
+    })
 
   })
 }

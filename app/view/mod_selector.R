@@ -69,7 +69,7 @@ ui <- function(id) {
       label = NULL
     ),
     actionButton(
-      inputId = "go",
+      inputId = ns("go"),
       label = NULL,
       icon = icon("arrow-right"),
       class = "go-button"
@@ -78,7 +78,7 @@ ui <- function(id) {
 }
 
 #' @export
-server <- function(id, selected = NULL) {
+server <- function(id, selected) {
   moduleServer(id, function(input, output, session) {
 
     observeEvent(input$application, {
@@ -105,6 +105,13 @@ server <- function(id, selected = NULL) {
           value = 1
         )
       }
+    })
+
+    observeEvent(input$go, {
+      selected$table_name <- input$table
+      selected$row <- input$row
+      selected$operation <- input$operation
+      selected$table_data <- table_data()
     })
 
     observeEvent(table_data(), {
