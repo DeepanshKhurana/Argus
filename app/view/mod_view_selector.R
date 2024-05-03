@@ -85,7 +85,7 @@ server <- function(id, selected) {
 
     shiny$observeEvent(input$row, {
       if (is.na(input$row)) {
-        updateNumericInput(
+        shiny$updateNumericInput(
           session = session,
           "row",
           value = 1
