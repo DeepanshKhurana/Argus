@@ -11,9 +11,15 @@ ui <- function(id) {
   ns <- shiny$NS(id)
   shiny$fluidPage(
     class = "argus",
-    shiny$h1(
+    shiny$div(
       class = "argus-header",
-      "Argus"
+      shiny$icon(
+        "eye",
+        class = "fa-solid argus-icon"
+      ),
+      shiny$p(
+        "Argus"
+      )
     ),
     mod_selector$ui(ns("selector")),
     shiny$div(
@@ -41,6 +47,10 @@ server <- function(id) {
     )
 
     shiny$observeEvent(selected$table_data, {
+      # Code Here
+    })
+
+    shiny$observeEvent(input$app_mode, {
       # Code Here
     })
 

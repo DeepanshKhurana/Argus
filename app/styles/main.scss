@@ -2,7 +2,20 @@
 
 .argus {
   .argus-header {
+    display: flex;
     text-align: center;
+    font-size: 34px;
     margin-bottom: 40px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    .argus-icon {
+      cursor: pointer;
+    }
+
+    p {
+      margin: 0;
+    }
   }
 }
