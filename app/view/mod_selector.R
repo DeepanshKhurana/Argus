@@ -11,7 +11,9 @@ box::use(
     textOutput,
     renderText,
     numericInput,
-    updateNumericInput
+    updateNumericInput,
+    actionButton,
+    icon
   ],
   shinyvalidate[
     InputValidator,
@@ -65,6 +67,12 @@ ui <- function(id) {
       inputId = ns("application"),
       choices = sort(choices$applications, decreasing = TRUE),
       label = NULL
+    ),
+    actionButton(
+      inputId = "go",
+      label = NULL,
+      icon = icon("arrow-right"),
+      class = "go-button"
     )
   )
 }
