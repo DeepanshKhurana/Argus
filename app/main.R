@@ -4,6 +4,7 @@ box::use(
 
 box::use(
   app/view/mod_add_selector,
+  app/view/mod_add,
   app/view/mod_view,
   app/view/mod_view_selector,
   app/view/mod_edit,
@@ -39,7 +40,8 @@ server <- function(id) {
       table_name = NULL,
       row = NULL,
       operation = NULL,
-      table_data = NULL
+      table_data = NULL,
+      user_input = NULL
     )
 
     shiny$observeEvent(
@@ -71,7 +73,9 @@ server <- function(id) {
             )
           }
         })
-      }, ignoreNULL = TRUE, ignoreInit = TRUE
+      },
+      ignoreNULL = TRUE,
+      ignoreInit = TRUE
     )
 
     shiny$observeEvent(input$app_mode,
@@ -96,6 +100,18 @@ server <- function(id) {
 
             mod_add_selector$ui(
               ns("selector")
+            )
+
+          })
+
+          output$data_area_ui <- shiny$renderUI({
+            mod_add$server(
+              "data_area",
+              selected
+            )
+
+            mod_add$ui(
+              ns("data_area")
             )
           })
         }
