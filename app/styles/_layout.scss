@@ -21,16 +21,50 @@
       text-transform: uppercase;
     }
 
+    .argus-field-input {
+      width: 100%;
+    }
+
+    .argus-field-input .form-control {
+      display: unset;
+      width: unset;
+      height: unset;
+      padding: unset;
+      font-size: unset;
+      line-height: unset;
+      color: unset;
+      background-color: unset;
+      background-image: unset;
+      border: 1px solid unset;
+      border-radius: unset;
+      -webkit-box-shadow: unset;
+      -webkit-transition: unset;
+      transition: unset;
+      transition: unset;
+      transition: unset;
+    }
+
+    .argus-field-value,
+    .argus-field-input > input {
+      font-size: 24px !important;
+      padding: 10px !important;
+      font-weight: 900 !important;
+      width: 100% !important;
+    }
+
     .argus-field-value {
-      font-size: 24px;
-      border: solid 1px $primary-blue;
-      padding: 10px;
-      font-weight: 900;
+      border: solid 1px $primary-blue-background !important;
+      pointer-events: none;
+    }
+
+    .argus-field-input > input {
+      border: solid 1px $primary-blue !important;
     }
   }
 
   .is-id-block {
     color: $tertiary-red;
+    pointer-events: not-allowed;
 
     .argus-field-heading {
       background: $tertiary-red-background;

@@ -6,6 +6,7 @@ box::use(
   app/view/mod_add_selector,
   app/view/mod_view,
   app/view/mod_view_selector,
+  app/view/mod_edit
 )
 
 #' @export
@@ -42,22 +43,39 @@ server <- function(id) {
       table_data = NULL
     )
 
-    shiny$observeEvent(selected$table_data, {
+    shiny$observeEvent(
+      c(
+        selected$table_data,
+        selected$operation
+      ),
+      {
 
       output$data_area_ui <- shiny$renderUI({
 
-        mod_view$server(
-          "data_area",
-          selected
-        )
+        shiny$req(selected$operation)
 
-        mod_view$ui(
-          ns("data_area")
-        )
+        if (selected$operation == "viewing") {
+          mod_view$server(
+            "data_area",
+            selected
+          )
 
+          mod_view$ui(
+            ns("data_area")
+          )
+        } else {
+          mod_edit$server(
+            "data_area",
+            selected
+          )
+
+          mod_edit$ui(
+            ns("data_area")
+          )
+        }
       })
 
-    })
+    }, ignoreNULL = TRUE, ignoreInit = TRUE)
 
     shiny$observeEvent(input$app_mode, {
 
