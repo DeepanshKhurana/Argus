@@ -7,7 +7,7 @@ box::use(
   dplyr[
     select,
     everything
-  ]
+  ],
 )
 
 box::use(

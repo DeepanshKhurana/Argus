@@ -2,17 +2,7 @@ box::use(
   glue[
     glue
   ],
-  shiny[
-    div,
-    moduleServer,
-    NS,
-    observeEvent,
-    p,
-    renderUI,
-    uiOutput,
-    tagAppendAttributes,
-    textInput
-  ],
+  shiny,
   stats[
     setNames
   ],
@@ -23,21 +13,21 @@ box::use(
 
 #' @export
 ui <- function(id) {
-  ns <- NS(id)
-  div(
+  ns <- shiny$NS(id)
+  shiny$div(
     class = "argus-data-area",
-    uiOutput(ns("argus_data"))
+    shiny$uiOutput(ns("argus_data"))
   )
 }
 
 #' @export
 server <- function(id, selected) {
-  moduleServer(id, function(input, output, session) {
+  shiny$moduleServer(id, function(input, output, session) {
 
     ns <- session$ns
 
-    observeEvent(selected$table_data, {
-      output$argus_data <- renderUI({
+    shiny$observeEvent(selected$table_data, {
+      output$argus_data <- shiny$renderUI({
 
         keys <- names(selected$table_data())
         labels <- gsub(
@@ -50,31 +40,31 @@ server <- function(id, selected) {
         keys <- setNames(as.list(labels), keys)
         total <- length(keys)
 
-        div(
+        shiny$div(
           class = "argus-data-grid",
           lapply(
             names(keys),
             function(key) {
               if (key == "id") {
                 class <- "argus-field-block is-id-block"
-                element <- p(
+                element <- shiny$p(
                   class = "argus-field-value",
                   selected$table_data()[key][selected$row, ]
                 )
               } else {
                 class <- "argus-field-block"
-                element <- textInput(
+                element <- shiny$textInput(
                   inputId = ns(key),
                   label = NULL,
                   value = selected$table_data()[key][selected$row, ]
                 ) |>
-                  tagAppendAttributes(
+                  shiny$tagAppendAttributes(
                     class = "argus-field-input"
                   )
               }
-              div(
+              shiny$div(
                 class = class,
-                p(
+                shiny$p(
                   class = "argus-field-heading",
                   keys[key]
                 ),

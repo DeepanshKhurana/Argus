@@ -10,7 +10,7 @@
   }
 
   .argus-field-block {
-      color: $primary-blue;
+    color: $primary-blue;
 
     .argus-field-heading {
       font-size: 12px;
@@ -37,8 +37,7 @@
       background-image: unset;
       border: 1px solid unset;
       border-radius: unset;
-      -webkit-box-shadow: unset;
-      -webkit-transition: unset;
+      box-shadow: unset;
       transition: unset;
       transition: unset;
       transition: unset;
@@ -63,15 +62,15 @@
   }
 
   .is-id-block {
-    color: $tertiary-red;
-    pointer-events: not-allowed;
+    color: $tertiary-red !important;
+    pointer-events: not-allowed !important;
 
     .argus-field-heading {
-      background: $tertiary-red-background;
+      background: $tertiary-red-background !important;
     }
 
     .argus-field-value {
-      border: solid 1px $tertiary-red;
+      border: solid 1px $tertiary-red-background !important;
     }
   }
 }
