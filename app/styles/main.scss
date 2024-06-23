@@ -1,4 +1,6 @@
 @import "selector";
+@import "layout";
+@import "colors";
 
 .argus {
   hr {
@@ -13,6 +15,7 @@
     justify-content: center;
     align-items: center;
     gap: 10px;
+    color: $primary-blue;
 
     .argus-icon {
       cursor: pointer;

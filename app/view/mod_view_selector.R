@@ -4,6 +4,10 @@ box::use(
     InputValidator,
     sv_lte
   ],
+  dplyr[
+    select,
+    everything
+  ]
 )
 
 box::use(
@@ -53,12 +57,6 @@ ui <- function(id) {
       inputId = ns("table"),
       choices = choices$tables[["Test"]],
       label = NULL
-    ),
-    shiny$actionButton(
-      inputId = ns("go"),
-      label = NULL,
-      icon = shiny$icon("arrow-right"),
-      class = "go-button"
     )
   )
 }
@@ -80,7 +78,8 @@ server <- function(id, selected) {
         get_data(
           input$table
         )
-      )
+      ) |>
+        select(id, everything())
     })
 
     shiny$observeEvent(input$row, {
@@ -93,12 +92,12 @@ server <- function(id, selected) {
       }
     })
 
-    shiny$observeEvent(input$go, {
+    shiny$observeEvent(c(input$table, input$row, input$operation, table_data), {
       selected$table_name <- input$table
       selected$row <- input$row
       selected$operation <- input$operation
       selected$table_data <- table_data
-    })
+    }, ignoreNULL = FALSE)
 
     shiny$observeEvent(table_data(), {
 

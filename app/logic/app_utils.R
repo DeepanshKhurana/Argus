@@ -25,9 +25,5 @@ process_table_data <- function(
 ) {
   sapply(api_table_response, data.frame) |>
     t() |>
-    data.frame() |>
-    mutate(
-      edit = "Edit",
-      delete = "Delete"
-    )
+    data.frame()
 }

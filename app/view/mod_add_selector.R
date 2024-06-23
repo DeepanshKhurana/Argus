@@ -34,12 +34,6 @@ ui <- function(id) {
       inputId = ns("table"),
       choices = choices$tables[["Test"]],
       label = NULL
-    ),
-    shiny$actionButton(
-      inputId = ns("go"),
-      label = NULL,
-      icon = shiny$icon("arrow-right"),
-      class = "go-button"
     )
   )
 }

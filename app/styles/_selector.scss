@@ -1,8 +1,11 @@
+@import "colors";
+
 .argus-filter-area {
   display: flex;
   text-align: center;
   justify-content: center;
   gap: 5px;
+  color: $primary-blue;
 
   input[type="number"] {
     min-width: 36px;
@@ -26,7 +29,8 @@
   }
 
   .selectize-dropdown .selected {
-    background-color: #444;
+    background-color: $primary-blue-background;
+    color: $primary-blue;
   }
 
   .form-control,
@@ -49,8 +53,8 @@
 
   .has-error,
   .has-error .form-control:focus {
-    text-decoration-color: #a94442 !important;
-    color: #a94442 !important;
+    text-decoration-color: $tertiary-red !important;
+    color: $tertiary-red !important;
     border: 0 !important;
     box-shadow: none !important;
   }
@@ -60,5 +64,9 @@
     background: 0;
     padding: 0;
     height: 0;
+  }
+
+  p {
+    color: $secondary-grey;
   }
 }

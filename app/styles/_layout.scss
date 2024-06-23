@@ -1,0 +1,43 @@
+@import "colors";
+
+.argus-data-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+
+  @media screen and (max-width: 1023px) {
+    grid-template-columns: 1fr;
+  }
+
+  .argus-field-block {
+      color: $primary-blue;
+
+    .argus-field-heading {
+      font-size: 12px;
+      background: $primary-blue-background;
+      text-align: left;
+      padding: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .argus-field-value {
+      font-size: 24px;
+      border: solid 1px $primary-blue;
+      padding: 10px;
+      font-weight: 900;
+    }
+  }
+
+  .is-id-block {
+    color: $tertiary-red;
+
+    .argus-field-heading {
+      background: $tertiary-red-background;
+    }
+
+    .argus-field-value {
+      border: solid 1px $tertiary-red;
+    }
+  }
+}

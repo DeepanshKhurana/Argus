@@ -3,8 +3,9 @@ box::use(
 )
 
 box::use(
-  app/view/mod_view_selector,
   app/view/mod_add_selector,
+  app/view/mod_view,
+  app/view/mod_view_selector,
 )
 
 #' @export
@@ -24,9 +25,7 @@ ui <- function(id) {
     ),
     shiny$uiOutput(ns("selector_ui")),
     shiny$hr(),
-    shiny$div(
-      class = "argus-data-area"
-    )
+    shiny$uiOutput(ns("data_area_ui"))
   )
 }
 
@@ -44,7 +43,20 @@ server <- function(id) {
     )
 
     shiny$observeEvent(selected$table_data, {
-      # Code Here
+
+      output$data_area_ui <- shiny$renderUI({
+
+        mod_view$server(
+          "data_area",
+          selected
+        )
+
+        mod_view$ui(
+          ns("data_area")
+        )
+
+      })
+
     })
 
     shiny$observeEvent(input$app_mode, {
@@ -80,7 +92,7 @@ server <- function(id) {
         })
 
       }
-    }, ignoreInit = FALSE, ignoreNULL = FALSE)
+    }, ignoreNULL = FALSE)
 
   })
 }
