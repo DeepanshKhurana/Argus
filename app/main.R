@@ -39,77 +39,79 @@ server <- function(id) {
     selected <- shiny$reactiveValues(
       table_name = NULL,
       row = NULL,
-      operation = NULL,
+      operation = "viewing",
       table_data = NULL,
       user_input = NULL
     )
 
-    shiny$observeEvent(
-      eventExpr = c(
-        selected$table_data,
-        selected$operation
-      ),
-      handlerExpr = {
-        output$data_area_ui <- shiny$renderUI({
-          shiny$req(selected$operation)
-
-          if (selected$operation == "viewing") {
-            mod_view$server(
-              "data_area",
-              selected
-            )
-
-            mod_view$ui(
-              ns("data_area")
-            )
-          } else {
-            mod_edit$server(
-              "data_area",
-              selected
-            )
-
-            mod_edit$ui(
-              ns("data_area")
-            )
-          }
+    observe_selector_ui <- function() {
+      if (input$app_mode == "view" || is.null(input$app_mode)) {
+        output$selector_ui <- shiny$renderUI({
+          mod_view_selector$server(
+            "selector",
+            selected
+          )
+          mod_view_selector$ui(
+            ns("selector")
+          )
         })
+      } else {
+        output$selector_ui <- shiny$renderUI({
+          mod_add_selector$server(
+            "selector",
+            selected
+          )
+          mod_add_selector$ui(
+            ns("selector")
+          )
+        })
+      }
+    }
+
+    observe_data_area_ui <- function() {
+      shiny$req(selected$operation)
+      if (selected$operation == "viewing") {
+        output$data_area_ui <- shiny$renderUI({
+          mod_view$server(
+            "data_area",
+            selected
+          )
+          mod_view$ui(
+            ns("data_area")
+          )
+        })
+      } else {
+        output$data_area_ui <- shiny$renderUI({
+          mod_edit$server(
+            "data_area",
+            selected
+          )
+          mod_edit$ui(
+            ns("data_area")
+          )
+        })
+      }
+    }
+
+    shiny$observeEvent(
+      c(selected$table_data, selected$operation),
+      {
+        observe_data_area_ui()
       },
       ignoreNULL = TRUE,
       ignoreInit = TRUE
     )
 
-    shiny$observeEvent(input$app_mode,
+    shiny$observeEvent(
+      input$app_mode,
       {
-        if (input$app_mode == "view" || is.null(input$app_mode)) {
-          output$selector_ui <- shiny$renderUI({
-            mod_view_selector$server(
-              "selector",
-              selected
-            )
-
-            mod_view_selector$ui(
-              ns("selector")
-            )
-          })
-        } else {
-          output$selector_ui <- shiny$renderUI({
-            mod_add_selector$server(
-              "selector",
-              selected
-            )
-
-            mod_add_selector$ui(
-              ns("selector")
-            )
-
-          })
-
+        observe_selector_ui()
+        if (input$app_mode != "view" && !is.null(input$app_mode)) {
           output$data_area_ui <- shiny$renderUI({
             mod_add$server(
               "data_area",
               selected
             )
-
             mod_add$ui(
               ns("data_area")
             )
