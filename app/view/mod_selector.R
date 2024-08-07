@@ -70,6 +70,8 @@ ui <- function(id, app_state) {
 server <- function(id, app_state) {
   shiny$moduleServer(id, function(input, output, session) {
 
+    input_validator <- InputValidator$new()
+
     shiny$observeEvent(input$application, {
       app_state$selected_app <- input$application
     },
@@ -94,9 +96,18 @@ server <- function(id, app_state) {
         max = total_rows
       )
 
-      iv <- InputValidator$new()
-      iv$add_rule("row", sv_lte(total_rows, message = ""))
-      iv$enable()
+      input_validator$add_rule("row", sv_lte(total_rows, message = ""))
+      input_validator$enable()
+    })
+
+    shiny$observeEvent(input$operation, {
+      app_state$operation <- input$operation
+    })
+
+    shiny$observeEvent(input$row, {
+      if (input_validator$is_valid()) {
+        app_state$selected_row <- input$row
+      }
     })
 
   })

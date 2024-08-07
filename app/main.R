@@ -67,6 +67,10 @@ server <- function(id) {
       }),
       total_rows = shiny$eventReactive(app_state$table_data(), {
         nrow(app_state$table_data())
+      }),
+      selected_row = 1,
+      selected_row_data = shiny$eventReactive(app_state$selected_row, {
+        app_state$table_data()[app_state$selected_row, ]
       })
     )
 
@@ -85,7 +89,11 @@ server <- function(id) {
           "selector",
           app_state
         )
-      }
-    )
+    })
+
+    shiny$observeEvent(app_state$selected_row_data(), {
+      # TODO Deepansh
+      # Implement logic to view data
+    }, ignoreInit = TRUE)
   })
 }
