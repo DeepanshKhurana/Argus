@@ -12,7 +12,6 @@ box::use(
 
 box::use(
   app/logic/app_utils[
-    get_table_list,
     process_table_data
   ],
   app/logic/api_utils[
@@ -20,14 +19,12 @@ box::use(
   ],
 )
 
-choices <- get_table_list()
-
 #' @export
-ui <- function(id, selected) {
+ui <- function(id, app_state) {
   ns <- shiny$NS(id)
   shiny$div(
     class = "argus-filter-area",
-    if (selected$app_mode == "add") {
+    if (app_state$mode == "add") {
       shiny$p("Adding new entry to")
     } else {
       shiny$tagList(
@@ -55,80 +52,52 @@ ui <- function(id, selected) {
     },
     shiny$selectInput(
       inputId = ns("application"),
-      choices = sort(choices$applications, decreasing = TRUE),
-      label = NULL
+      choices = app_state$apps,
+      label = NULL,
+      selected = app_state$selected_app
     ),
     shiny$p("—"),
     shiny$selectInput(
       inputId = ns("table"),
-      choices = choices$tables[["Test"]],
-      label = NULL
+      choices = app_state$tables(),
+      label = NULL,
+      selected = app_state$selected_table()
     )
   )
 }
 
 #' @export
-server <- function(id, selected) {
+server <- function(id, app_state) {
   shiny$moduleServer(id, function(input, output, session) {
 
     shiny$observeEvent(input$application, {
-      shiny$updateSelectInput(
+      app_state$selected_app <- input$application
+    },
+    ignoreInit = TRUE)
+
+    shiny$observeEvent(input$table, {
+      app_state$selected_table <- shiny$reactive({
+        input$table
+      })
+    },
+    ignoreInit = TRUE)
+
+    shiny$observeEvent(app_state$total_rows(), {
+      total_rows <- app_state$total_rows()
+      output$total_rows <- shiny$renderText({
+        total_rows
+      })
+
+      shiny$updateNumericInput(
         session = session,
-        "table",
-        choices = choices$tables[[input$application]]
+        "row",
+        max = total_rows
       )
+
+      iv <- InputValidator$new()
+      iv$add_rule("row", sv_lte(total_rows, message = ""))
+      iv$enable()
     })
 
-    if (selected$app_mode == "add") {
-
-    } else {
-      table_data <- shiny$eventReactive(input$table, {
-        process_table_data(
-          get_data(input$table)
-        ) |> select(id, everything())
-      })
-
-      shiny$observeEvent(input$row, {
-        if (is.na(input$row)) {
-          shiny$updateNumericInput(
-            session = session,
-            "row",
-            value = 1
-          )
-        }
-      })
-
-      shiny$observeEvent(
-        eventExpr = c(
-          input$table,
-          input$row,
-          input$operation,
-          table_data
-        ),
-      handlerExpr = function() {
-        selected$table_name <- input$table
-        selected$row <- input$row
-        selected$operation <- input$operation
-        selected$table_data <- table_data
-      }, ignoreNULL = FALSE)
-
-      shiny$observeEvent(table_data(), {
-        total <- nrow(table_data())
-
-        shiny$updateNumericInput(
-          session = session,
-          "row",
-          max = total
-        )
-
-        iv <- InputValidator$new()
-        iv$add_rule("row", sv_lte(total, message = ""))
-        iv$enable()
-
-        output$total_rows <- shiny$renderText({
-          total
-        })
-      })
-    }
   })
 }
