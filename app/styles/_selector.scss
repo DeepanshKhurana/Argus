@@ -6,6 +6,7 @@
   justify-content: center;
   gap: 5px;
   color: $primary-blue;
+  flex-wrap: wrap;
 
   input[type="number"] {
     min-width: 36px;
