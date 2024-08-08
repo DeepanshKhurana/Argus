@@ -2,6 +2,9 @@ box::use(
   glue[
     glue
   ],
+  dplyr[
+    select
+  ],
   shiny,
   stats[
     setNames
@@ -83,6 +86,24 @@ server <- function(id, app_state) {
             }
           )
         )
+      })
+    })
+
+    shiny$observe({
+      app_state$user_inputs <- shiny$reactive({
+        input_schema <- as.list(app_state$selected_row_data()[1, ])
+        keys <- names(app_state$selected_row_data())
+        input_schema <- c(
+          input_schema$id,
+          lapply(
+            keys[-which(keys == "id")],
+            function(key) {
+              input_schema[[key]] <- input[[key]]
+            }
+          )
+        )
+        names(input_schema) <- keys
+        input_schema[order(names(input_schema))]
       })
     })
 

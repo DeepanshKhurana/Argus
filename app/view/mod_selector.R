@@ -15,7 +15,8 @@ box::use(
     process_table_data
   ],
   app/logic/api_utils[
-    get_data
+    get_data,
+    put_row
   ],
 )
 
@@ -156,11 +157,22 @@ server <- function(id, app_state) {
 
     shiny$observeEvent(input$save, {
 
-      if (app_state$mode == "view") {
+      if (app_state$mode == "view") { # Edit mode
+
+        put_row(
+          table_name = app_state$selected_table(),
+          is_update = TRUE,
+          app_state$user_inputs() |> unlist()
+        )
+
+        # TODO Deepansh
+        # The putting works correctly, but the table does not update
+        # Make sure it updates
+
         app_state$operation <- shiny$reactive({
           "viewing"
         })
-      } else {
+      } else { # Add mode
         app_state$mode <- "view"
         runjs("App.toggleIconMode('.argus-icon');")
       }
