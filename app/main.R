@@ -1,11 +1,14 @@
 box::use(
   shiny,
+  dplyr[
+    select,
+    everything
+  ],
 )
 
 box::use(
   app/view/mod_add,
   app/view/mod_view,
-  app/view/mod_edit,
   app/view/mod_selector,
 )
 
@@ -63,15 +66,26 @@ server <- function(id) {
           get_data(
             app_state$selected_table()
           )
+        ) |> select(
+          id, everything()
         )
+
       }),
       total_rows = shiny$eventReactive(app_state$table_data(), {
         nrow(app_state$table_data())
       }),
-      selected_row = 1,
-      selected_row_data = shiny$eventReactive(app_state$selected_row, {
-        app_state$table_data()[app_state$selected_row, ]
-      })
+      selected_row = shiny$reactive({
+        NULL
+      }),
+      selected_row_data = shiny$eventReactive(
+        c(
+          app_state$selected_row(),
+          app_state$table_data()
+        ),
+        {
+          app_state$table_data()[app_state$selected_row(), ]
+        }
+      )
     )
 
     shiny$observeEvent(input$app_mode, {
@@ -79,21 +93,29 @@ server <- function(id) {
     })
 
     shiny$observeEvent(app_state$mode, {
-        output$selector_ui <- shiny$renderUI({
-          mod_selector$ui(
-            ns("selector"),
-            app_state
-          )
-        })
-        mod_selector$server(
-          "selector",
+      output$selector_ui <- shiny$renderUI({
+        mod_selector$ui(
+          ns("selector"),
           app_state
         )
+      })
+      mod_selector$server(
+        "selector",
+        app_state
+      )
     })
 
-    shiny$observeEvent(app_state$selected_row_data(), {
-      # TODO Deepansh
-      # Implement logic to view data
+    shiny$observeEvent(app_state$selected_row(), {
+      output$data_area_ui <- shiny$renderUI({
+        mod_view$ui(
+          ns("view")
+        )
+      })
+
+      mod_view$server(
+        "view",
+        app_state
+      )
     }, ignoreInit = TRUE)
   })
 }

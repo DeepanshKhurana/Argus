@@ -106,7 +106,9 @@ server <- function(id, app_state) {
 
     shiny$observeEvent(input$row, {
       if (input_validator$is_valid()) {
-        app_state$selected_row <- input$row
+        app_state$selected_row <- shiny$reactive({
+          input$row
+        })
       }
     })
 
