@@ -59,7 +59,7 @@ server <- function(id, app_state) {
             names(keys),
             function(key) {
               if (key == "id") {
-                class <- "argus-field-block is-id-block"
+                class <- "argus-field-block id-block"
                 element <- shiny$p(
                   class = "argus-field-value",
                   max_id() + 1

@@ -47,7 +47,7 @@ server <- function(id, app_state) {
             function(key) {
               if (app_state$operation() == "editing") {
                 if (key == "id") {
-                  class <- "argus-field-block is-id-block"
+                  class <- "argus-field-block id-block"
                   element <- shiny$p(
                     class = "argus-field-value",
                     app_state$selected_row_data()[key]
@@ -65,7 +65,7 @@ server <- function(id, app_state) {
                 }
               } else {
                 class <- glue(
-                  "argus-field-block {ifelse(key == 'id', 'is-id-block', '')}"
+                  "argus-field-block {ifelse(key == 'id', 'id-block', '')}"
                 )
                 element <- shiny$p(
                   class = "argus-field-value",
