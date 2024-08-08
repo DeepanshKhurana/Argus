@@ -71,7 +71,6 @@ server <- function(id) {
         ) |> select(
           id, everything()
         )
-
       }),
       total_rows = shiny$eventReactive(app_state$table_data(), {
         nrow(app_state$table_data())
@@ -87,7 +86,10 @@ server <- function(id) {
         {
           app_state$table_data()[app_state$selected_row(), ]
         }
-      )
+      ),
+      user_inputs = shiny$reactive({
+        NULL
+      })
     )
 
     shiny$observeEvent(input$app_mode, {

@@ -4,6 +4,10 @@ box::use(
     select,
     everything
   ],
+  shinyjs[
+    useShinyjs,
+    runjs
+  ],
 )
 
 box::use(
@@ -19,6 +23,7 @@ box::use(
 ui <- function(id, app_state) {
   ns <- shiny$NS(id)
   shiny$div(
+    useShinyjs(),
     class = "argus-filter-area",
     if (app_state$mode == "add") {
       shiny$p("Adding new entry to")
@@ -106,26 +111,6 @@ server <- function(id, app_state) {
 
     })
 
-    shiny$observeEvent(
-      eventExpr = c(app_state$mode, app_state$operation()),
-      handlerExpr = {
-        if (app_state$mode == "add" || app_state$operation() == "editing") {
-          output$save_button <- shiny$renderUI({
-            shiny$actionButton(
-              ns("save"),
-              label = NULL,
-              icon = shiny$icon("save"),
-              class = "save-button"
-            )
-          })
-        } else {
-          shiny$removeUI("save_button")
-          output$save_button <- NULL
-          NULL
-        }
-      }
-    )
-
     shiny$observeEvent(input$operation, {
       app_state$operation <- shiny$reactive({
         input$operation
@@ -148,5 +133,39 @@ server <- function(id, app_state) {
       }
 
     })
+
+    shiny$observeEvent(
+      eventExpr = c(app_state$mode, app_state$operation()),
+      handlerExpr = {
+        if (app_state$mode == "add" || app_state$operation() == "editing") {
+          output$save_button <- shiny$renderUI({
+            shiny$actionButton(
+              inputId = ns("save"),
+              label = NULL,
+              icon = shiny$icon("save"),
+              class = "save-button"
+            )
+          })
+        } else {
+          shiny$removeUI("save_button")
+          output$save_button <- NULL
+          NULL
+        }
+      }
+    )
+
+    shiny$observeEvent(input$save, {
+
+      if (app_state$mode == "view") {
+        app_state$operation <- shiny$reactive({
+          "viewing"
+        })
+      } else {
+        app_state$mode <- "view"
+        runjs("App.toggleIconMode('.argus-icon');")
+      }
+
+    }, ignoreInit = TRUE)
+
   })
 }
