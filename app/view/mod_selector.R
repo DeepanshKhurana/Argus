@@ -59,6 +59,9 @@ ui <- function(id, app_state) {
       choices = app_state$tables(),
       label = NULL,
       selected = app_state$selected_table()
+    ),
+    shiny$uiOutput(
+      ns("save_button")
     )
   )
 }
@@ -66,6 +69,8 @@ ui <- function(id, app_state) {
 #' @export
 server <- function(id, app_state) {
   shiny$moduleServer(id, function(input, output, session) {
+
+    ns <- session$ns
 
     shiny$observeEvent(input$application, {
       app_state$selected_app <- input$application
@@ -100,6 +105,26 @@ server <- function(id, app_state) {
       }
 
     })
+
+    shiny$observeEvent(
+      eventExpr = c(app_state$mode, app_state$operation()),
+      handlerExpr = {
+        if (app_state$mode == "add" || app_state$operation() == "editing") {
+          output$save_button <- shiny$renderUI({
+            shiny$actionButton(
+              ns("save"),
+              label = NULL,
+              icon = shiny$icon("save"),
+              class = "save-button"
+            )
+          })
+        } else {
+          shiny$removeUI("save_button")
+          output$save_button <- NULL
+          NULL
+        }
+      }
+    )
 
     shiny$observeEvent(input$operation, {
       app_state$operation <- shiny$reactive({
