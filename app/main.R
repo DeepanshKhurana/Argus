@@ -108,7 +108,9 @@ server <- function(id) {
     })
 
     shiny$observeEvent(app_state$selected_row(), {
-      if (app_state$mode == "view" || !is.null(app_state$mode)) {
+      shiny$removeUI(ns("data_area_ui"))
+      output$data_area_ui <- NULL
+      if (app_state$mode == "view") {
         output$data_area_ui <- shiny$renderUI({
           mod_view$ui(
             ns("view")
