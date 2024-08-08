@@ -155,7 +155,7 @@ server <- function(id, app_state) {
       }
     )
 
-    shiny$observeEvent(input$save, {
+    app_state$observers$save_observer <- shiny$observeEvent(input$save, {
 
       if (app_state$mode == "view") { # Edit mode
 
@@ -165,28 +165,31 @@ server <- function(id, app_state) {
           app_state$user_inputs() |> unlist()
         )
 
-        # TODO Deepansh
-        # The putting works correctly, but the table does not update
-        # Make sure it updates
-
         app_state$operation <- shiny$reactive({
           "viewing"
         })
 
-        app_state$table_data <- shiny$reactive({
-          process_table_data(
-            get_data(
-              app_state$selected_table()
-            )
-          ) |> select(
-            id, everything()
-          )
-        })
-
       } else { # Add mode
+
+        put_row(
+          table_name = app_state$selected_table(),
+          is_update = FALSE,
+          app_state$user_inputs() |> unlist()
+        )
+
         app_state$mode <- "view"
         runjs("App.toggleIconMode('.argus-icon');")
       }
+
+      app_state$table_data <- shiny$reactive({
+        process_table_data(
+          get_data(
+            app_state$selected_table()
+          )
+        ) |> select(
+          id, everything()
+        )
+      })
 
     }, ignoreInit = TRUE)
 

@@ -97,6 +97,11 @@ server <- function(id) {
     })
 
     shiny$observeEvent(app_state$mode, {
+
+      if (!is.null(app_state$observers$save_observer)) {
+        app_state$observers$save_observer$destroy()
+      }
+
       output$selector_ui <- shiny$renderUI({
         mod_selector$ui(
           ns("selector"),
