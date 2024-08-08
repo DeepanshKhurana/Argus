@@ -110,17 +110,17 @@ server <- function(id, app_state) {
     shiny$observeEvent(input$row, {
 
       if (input$row > app_state$total_rows()) {
-
         shiny$updateNumericInput(
           session = session,
           "row",
+          value = app_state$total_rows(),
           max = app_state$total_rows()
         )
+      } else {
+        app_state$selected_row <- shiny$reactive({
+          input$row
+        })
       }
-
-      app_state$selected_row <- shiny$reactive({
-        input$row
-      })
 
     })
   })
