@@ -1,9 +1,5 @@
 box::use(
   shiny,
-  shinyvalidate[
-    InputValidator,
-    sv_lte
-  ],
   dplyr[
     select,
     everything
@@ -35,13 +31,13 @@ ui <- function(id, app_state) {
             "Editing" = "editing"
           ),
           label = NULL,
-          selected = app_state$operation
+          selected = app_state$operation()
         ),
         shiny$numericInput(
           inputId = ns("row"),
           min = 1,
-          max = 1,
-          value = 1,
+          max = app_state$total_rows(),
+          value = app_state$selected_row(),
           label = NULL
         ),
         shiny$p("of"),
@@ -71,22 +67,20 @@ ui <- function(id, app_state) {
 server <- function(id, app_state) {
   shiny$moduleServer(id, function(input, output, session) {
 
-    input_validator <- InputValidator$new()
-
     shiny$observeEvent(input$application, {
       app_state$selected_app <- input$application
-    },
-    ignoreInit = TRUE)
+    }, ignoreInit = TRUE)
 
     shiny$observeEvent(input$table, {
       app_state$selected_table <- shiny$reactive({
         input$table
       })
-    },
-    ignoreInit = TRUE)
+    }, ignoreInit = TRUE)
 
     shiny$observeEvent(app_state$total_rows(), {
+
       total_rows <- app_state$total_rows()
+
       output$total_rows <- shiny$renderText({
         total_rows
       })
@@ -97,21 +91,37 @@ server <- function(id, app_state) {
         max = total_rows
       )
 
-      input_validator$add_rule("row", sv_lte(total_rows, message = ""))
-      input_validator$enable()
+      if (app_state$selected_row() > total_rows) {
+        shiny$updateNumericInput(
+          session = session,
+          "row",
+          value = total_rows
+        )
+      }
+
     })
 
     shiny$observeEvent(input$operation, {
-      app_state$operation <- input$operation
-    })
+      app_state$operation <- shiny$reactive({
+        input$operation
+      })
+    }, ignoreInit = TRUE)
 
     shiny$observeEvent(input$row, {
-      if (input_validator$is_valid()) {
-        app_state$selected_row <- shiny$reactive({
-          input$row
-        })
-      }
-    })
 
+      if (input$row > app_state$total_rows()) {
+
+        shiny$updateNumericInput(
+          session = session,
+          "row",
+          max = app_state$total_rows()
+        )
+      }
+
+      app_state$selected_row <- shiny$reactive({
+        input$row
+      })
+
+    })
   })
 }

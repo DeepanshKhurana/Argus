@@ -21,24 +21,24 @@ ui <- function(id) {
 }
 
 #' @export
-server <- function(id, selected) {
+server <- function(id, app_state) {
   shiny$moduleServer(id, function(input, output, session) {
 
     ns <- session$ns
 
     empty_dataframe <- shiny$reactive({
       data.frame(
-        selected$table_data()[0, ]
+        app_state$table_data()[0, ]
       )
     })
 
     max_id <- shiny$reactive({
-      selected$table_data()$id |>
+      app_state$table_data()$id |>
         unlist() |>
         max()
     })
 
-    shiny$observeEvent(selected$table_data, {
+    shiny$observeEvent(app_state$table_data, {
 
       output$argus_data <- shiny$renderUI({
 

@@ -45,7 +45,7 @@ server <- function(id, app_state) {
           lapply(
             names(keys),
             function(key) {
-              if (app_state$operation == "editing") {
+              if (app_state$operation() == "editing") {
                 if (key == "id") {
                   class <- "argus-field-block is-id-block"
                   element <- shiny$p(
@@ -84,7 +84,7 @@ server <- function(id, app_state) {
           )
         )
       })
-    }, ignoreNULL = TRUE)
+    })
 
   })
 }

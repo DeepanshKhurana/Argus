@@ -52,7 +52,9 @@ server <- function(id) {
 
     app_state <- shiny$reactiveValues(
       mode = "view",
-      operation = "viewing",
+      operation = shiny$reactive({
+        "viewing"
+      }),
       apps = table_list_data$applications,
       tables = shiny$eventReactive(app_state$selected_app, {
         table_list_data$tables[[app_state$selected_app]]
@@ -75,7 +77,7 @@ server <- function(id) {
         nrow(app_state$table_data())
       }),
       selected_row = shiny$reactive({
-        NULL
+        1
       }),
       selected_row_data = shiny$eventReactive(
         c(
@@ -106,16 +108,27 @@ server <- function(id) {
     })
 
     shiny$observeEvent(app_state$selected_row(), {
-      output$data_area_ui <- shiny$renderUI({
-        mod_view$ui(
-          ns("view")
+      if (app_state$mode == "view" || !is.null(app_state$mode)) {
+        output$data_area_ui <- shiny$renderUI({
+          mod_view$ui(
+            ns("view")
+          )
+        })
+        mod_view$server(
+          "view",
+          app_state
         )
-      })
-
-      mod_view$server(
-        "view",
-        app_state
-      )
+      } else {
+        output$data_area_ui <- shiny$renderUI({
+          mod_add$ui(
+            ns("add")
+          )
+        })
+        mod_add$server(
+          "add",
+          app_state
+        )
+      }
     }, ignoreInit = TRUE)
   })
 }
