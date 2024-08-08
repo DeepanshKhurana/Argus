@@ -34,7 +34,8 @@ ui <- function(id, app_state) {
             "Viewing" = "viewing",
             "Editing" = "editing"
           ),
-          label = NULL
+          label = NULL,
+          selected = app_state$operation
         ),
         shiny$numericInput(
           inputId = ns("row"),
