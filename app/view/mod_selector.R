@@ -172,6 +172,17 @@ server <- function(id, app_state) {
         app_state$operation <- shiny$reactive({
           "viewing"
         })
+
+        app_state$table_data <- shiny$reactive({
+          process_table_data(
+            get_data(
+              app_state$selected_table()
+            )
+          ) |> select(
+            id, everything()
+          )
+        })
+
       } else { # Add mode
         app_state$mode <- "view"
         runjs("App.toggleIconMode('.argus-icon');")
