@@ -68,6 +68,9 @@ ui <- function(id, app_state) {
     ),
     shiny$uiOutput(
       ns("save_button")
+    ),
+    shiny$uiOutput(
+      ns("delete_button")
     )
   )
 }
@@ -150,9 +153,26 @@ server <- function(id, app_state) {
               class = "save-button"
             )
           })
+
+          delete_icon <- ifelse(
+            app_state$mode == "add",
+            "square-minus",
+            "trash-can"
+          )
+
+          output$delete_button <- shiny$renderUI({
+            shiny$actionButton(
+              inputId = ns("delete"),
+              label = NULL,
+              icon = shiny$icon(delete_icon),
+              class = "delete-button"
+            )
+          })
         } else {
           shiny$removeUI("save_button")
+          shiny$removeUI("delete_button")
           output$save_button <- NULL
+          output$delete_button <- NULL
           NULL
         }
       }

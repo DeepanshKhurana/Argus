@@ -67,14 +67,15 @@
     height: 0;
   }
 
-  .save-button {
+  .save-button,
+  .delete-button {
     border: 0;
     background: 0;
     margin: 0;
     padding: 0;
     margin-left: 5px;
     margin-bottom: 10px;
-    font-size: 16px;
+    font-size: 14px;
     color: $primary-blue;
   }
 
