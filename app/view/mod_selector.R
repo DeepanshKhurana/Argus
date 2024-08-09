@@ -4,6 +4,9 @@ box::use(
     select,
     everything
   ],
+  shinyalert[
+    shinyalert
+  ],
   shinyjs[
     useShinyjs,
     runjs
@@ -16,7 +19,8 @@ box::use(
   ],
   app/logic/api_utils[
     get_data,
-    put_row
+    put_row,
+    delete_row
   ],
 )
 
@@ -145,6 +149,7 @@ server <- function(id, app_state) {
       eventExpr = c(app_state$mode, app_state$operation()),
       handlerExpr = {
         if (app_state$mode == "add" || app_state$operation() == "editing") {
+
           output$save_button <- shiny$renderUI({
             shiny$actionButton(
               inputId = ns("save"),
@@ -168,6 +173,7 @@ server <- function(id, app_state) {
               class = "delete-button"
             )
           })
+
         } else {
           shiny$removeUI("save_button")
           shiny$removeUI("delete_button")
@@ -176,6 +182,57 @@ server <- function(id, app_state) {
           NULL
         }
       }
+    )
+
+    app_state$observers$delete_observer <- shiny$observeEvent(
+      eventExpr = input$delete,
+      handlerExpr = {
+        if (app_state$mode == "add") {
+          app_state$mode <- "view"
+          runjs("App.toggleIconMode('.argus-icon');")
+        } else {
+          shinyalert(
+            title = "Delete entry?",
+            text = "This permanently removes this row.",
+            showConfirmButton = TRUE,
+            showCancelButton = TRUE,
+            confirmButtonText = "Yes",
+            cancelButtonText = "No",
+            inputId = "confirm" # shinyalert does not need ns()
+          )
+        }
+      },
+      ignoreInit = TRUE
+    )
+
+    app_state$observers$confirm_observer <- shiny$observeEvent(
+      eventExpr = input$confirm,
+      handlerExpr = {
+
+        if (input$confirm) {
+          delete_row(
+            table_name = app_state$selected_table(),
+            row = app_state$selected_row_data()$id |>
+              unlist()
+          )
+          app_state$table_data <- shiny$reactive({
+            process_table_data(
+              get_data(
+                app_state$selected_table()
+              )
+            ) |> select(
+              id, everything()
+            )
+          })
+        }
+
+        app_state$mode <- "view"
+        app_state$operation <- shiny$reactive({
+          "viewing"
+        })
+
+      },
+      ignoreInit = TRUE
     )
 
     app_state$observers$save_observer <- shiny$observeEvent(input$save, {

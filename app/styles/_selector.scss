@@ -1,5 +1,26 @@
 @import "colors";
 
+.sweet-alert {
+  border-radius: 0 !important;
+
+  .sa-button-container {
+    padding-bottom: 30px !important;
+  }
+
+  button {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  button.confirm {
+    background-color: $primary-blue !important;
+  }
+
+  button.cancel {
+    background-color: $tertiary-red !important;
+  }
+}
+
 .argus-filter-area {
   display: flex;
   text-align: center;

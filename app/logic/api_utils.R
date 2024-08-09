@@ -123,15 +123,20 @@ put_row <- function(
   show_old = TRUE,
   is_update = FALSE
 ) {
-  endpoint <- ifelse(is_update, "update", "create")
 
   table_schema <- get_schema(
     table_name
   )$classes |>
     names()
 
-  input_list <- c(...)
-  input_list <- input_list[order(table_schema)]
+  if (is_update) {
+    endpoint <- "update"
+    input_list <- c(...)
+    input_list <- input_list[order(table_schema)]
+  } else {
+    endpoint <- "create"
+    input_list <- c(...)
+  }
 
   request(make_endpoint(endpoint)) |>
     req_headers(
