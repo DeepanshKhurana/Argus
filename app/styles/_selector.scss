@@ -29,8 +29,10 @@
   color: $primary-blue;
   flex-wrap: wrap;
 
-  input[type="number"] {
-    min-width: 36px;
+  @media (min-width: 768px) {
+    input[type="number"] {
+      min-width: 36px;
+    }
   }
 
   input[type="number"]::-webkit-inner-spin-button,
