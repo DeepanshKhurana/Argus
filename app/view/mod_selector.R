@@ -120,7 +120,7 @@ server <- function(id, app_state) {
 
     shiny$observeEvent(input$row, {
 
-      if (input$row > app_state$total_rows()) {
+      if (shiny$isTruthy(input$row) && input$row > app_state$total_rows()) {
         shiny$updateNumericInput(
           session = session,
           "row",
@@ -129,10 +129,13 @@ server <- function(id, app_state) {
         )
       } else {
         app_state$selected_row <- shiny$reactive({
-          input$row
+          ifelse(
+            shiny$isTruthy(input$row),
+            input$row,
+            1
+          )
         })
       }
-
     })
 
     shiny$observeEvent(
