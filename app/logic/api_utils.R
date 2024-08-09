@@ -124,6 +124,15 @@ put_row <- function(
   is_update = FALSE
 ) {
   endpoint <- ifelse(is_update, "update", "create")
+
+  table_schema <- get_schema(
+    table_name
+  )$classes |>
+    names()
+
+  input_list <- c(...)
+  input_list <- input_list[order(table_schema)]
+
   request(make_endpoint(endpoint)) |>
     req_headers(
       accept = "*/*",
@@ -132,7 +141,7 @@ put_row <- function(
     req_method("PUT") |>
     req_url_query(
       "table_name" = table_name,
-      "input_list" = c(...),
+      "input_list" = input_list,
       "show_old" = tolower(show_old),
       .multi = "explode"
     ) |>
