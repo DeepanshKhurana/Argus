@@ -133,6 +133,7 @@ map_sql_to_r <- function(
     "double precision" = "numeric",
     "date" = "Date",
     "timestamp with time zone" = "POSIXct",
+    "time without time zone" = "character",
     "boolean" = "logical"
   )
 ) {
