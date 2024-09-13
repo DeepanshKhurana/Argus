@@ -268,7 +268,8 @@ server <- function(id, app_state) {
           )
         ) |> select(
           id, everything()
-        )
+        ) |>
+             select(-created_at)
       })
 
     }, ignoreInit = TRUE)
