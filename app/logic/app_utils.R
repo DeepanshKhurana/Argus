@@ -4,7 +4,9 @@ box::use(
   ],
   dplyr[
     mutate,
-    select
+    select,
+    mutate_all,
+    if_else
   ],
 )
 
@@ -25,5 +27,17 @@ process_table_data <- function(
 ) {
   sapply(api_table_response, data.frame) |>
     t() |>
-    data.frame()
+    data.frame() |>
+    select(
+      id,
+      everything()
+    ) |>
+    select(-created_at) |>
+    mutate_all(
+      ~ replace(
+        .,
+        . %in% c("NULL", "<NA>", "NA", NA, NULL),
+        " "
+      )
+    )
 }
