@@ -217,7 +217,7 @@ put_row <- function(
   ) |>
     t() |>
     data.frame() |>
-    dplyr::filter(
+    filter(
       column_name != "created_at"
     )
 
@@ -235,6 +235,17 @@ put_row <- function(
   validate_input_types(
     input_list,
     table_schema
+  )
+
+  input_list <- lapply(
+    input_list,
+    function(value) {
+      if (is.null(value) || (is.character(value) && trimws(value) == "")) {
+        NA
+      } else {
+        value
+      }
+    }
   )
 
   request(make_endpoint(endpoint)) |>

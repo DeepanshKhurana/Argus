@@ -68,13 +68,7 @@ server <- function(id) {
           get_data(
             app_state$selected_table()
           )
-        ) |> select(
-          id,
-          everything()
-        ) |>
-          select(
-            -created_at
-          )
+        )
       }),
       total_rows = shiny$eventReactive(app_state$table_data(), {
         nrow(app_state$table_data())

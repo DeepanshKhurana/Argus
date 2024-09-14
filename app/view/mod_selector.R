@@ -220,8 +220,6 @@ server <- function(id, app_state) {
               get_data(
                 app_state$selected_table()
               )
-            ) |> select(
-              id, everything()
             )
           })
         }
@@ -266,10 +264,7 @@ server <- function(id, app_state) {
           get_data(
             app_state$selected_table()
           )
-        ) |> select(
-          id, everything()
-        ) |>
-             select(-created_at)
+        )
       })
 
     }, ignoreInit = TRUE)
