@@ -1,8 +1,8 @@
 # This file allows packrat (used by rsconnect during deployment) to pick up dependencies.
 library(glue)
+library(dplyr)
+library(checkmate)
 library(httr2)
-library(reactable)
-library(reactable.extras)
 library(rhino)
 library(shinyalert)
 library(shinyjs)

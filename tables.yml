@@ -5,8 +5,14 @@ Ebenezer:
   ebenezer_savings
   ebenezer_sgbs
   ebenezer_stocks
+Chronos:
+  chronos_cache
+  chronos_calendars
+Hrafnagud:
+  hrafnagud_cache
 Livingston:
   livingston_details
   livingston_trips
-Test:
+Others:
   test_table
+  schema_test
