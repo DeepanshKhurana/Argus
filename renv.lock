@@ -13,6 +13,33 @@
     ]
   },
   "Packages": {
+    "DBI": {
+      "Package": "DBI",
+      "Version": "1.3.0",
+      "Source": "Repository",
+      "Repository": "P3M",
+      "Requirements": [
+        "R",
+        "methods"
+      ],
+      "Hash": "dbfa2adb83f8063640982459e153f650"
+    },
+    "DT": {
+      "Package": "DT",
+      "Version": "0.34.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "crosstalk",
+        "htmltools",
+        "htmlwidgets",
+        "jquerylib",
+        "jsonlite",
+        "magrittr",
+        "promises"
+      ],
+      "Hash": "a9d00f59f9c7e613dd4c3e0d27135a03"
+    },
     "R.cache": {
       "Package": "R.cache",
       "Version": "0.17.0",
@@ -77,22 +104,61 @@
       ],
       "Hash": "d4335fe7207f1c01ab8c41762f5840d4"
     },
+    "RColorBrewer": {
+      "Package": "RColorBrewer",
+      "Version": "1.1-3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "45f0398006e83a5b10b72a90663d8d8c"
+    },
+    "RSQLite": {
+      "Package": "RSQLite",
+      "Version": "2.4.6",
+      "Source": "Repository",
+      "Repository": "P3M",
+      "Requirements": [
+        "DBI",
+        "R",
+        "bit64",
+        "blob",
+        "cpp11",
+        "memoise",
+        "methods",
+        "pkgconfig",
+        "rlang"
+      ],
+      "Hash": "09ba8d6f810e3818edf73c8063b4e2ff"
+    },
     "Rcpp": {
       "Package": "Rcpp",
       "Version": "1.0.14",
       "Source": "Repository",
-      "Repository": "P3M",
+      "Repository": "RSPM",
       "Requirements": [
         "methods",
         "utils"
       ],
       "Hash": "e7bdd9ee90e96921ca8a0f1972d66682"
     },
+    "S7": {
+      "Package": "S7",
+      "Version": "0.2.1",
+      "Source": "Repository",
+      "Repository": "P3M",
+      "Requirements": [
+        "R",
+        "utils"
+      ],
+      "Hash": "9da85950949574264f92f91f0e23de26"
+    },
     "askpass": {
       "Package": "askpass",
       "Version": "1.2.1",
       "Source": "Repository",
-      "Repository": "P3M",
+      "Repository": "RSPM",
       "Requirements": [
         "sys"
       ],
@@ -118,6 +184,61 @@
       ],
       "Hash": "543776ae6848fde2f48ff3816d0628bc"
     },
+    "billboarder": {
+      "Package": "billboarder",
+      "Version": "0.5.1",
+      "Source": "Repository",
+      "Repository": "P3M",
+      "Requirements": [
+        "R",
+        "ggplot2",
+        "htmltools",
+        "htmlwidgets",
+        "jsonlite",
+        "magrittr",
+        "rlang",
+        "scales",
+        "shiny"
+      ],
+      "Hash": "a49544ad321d95a031c1b5115aea7df8"
+    },
+    "bit": {
+      "Package": "bit",
+      "Version": "4.6.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "ebe86ffd194564abdc895d87742d5a29"
+    },
+    "bit64": {
+      "Package": "bit64",
+      "Version": "4.6.0-1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "bit",
+        "graphics",
+        "methods",
+        "stats",
+        "utils"
+      ],
+      "Hash": "4f572fbc586294afff277db583b9060f"
+    },
+    "blob": {
+      "Package": "blob",
+      "Version": "1.3.0",
+      "Source": "Repository",
+      "Repository": "P3M",
+      "Requirements": [
+        "methods",
+        "rlang",
+        "vctrs"
+      ],
+      "Hash": "1e0ae40898be928695fd90a80e816253"
+    },
     "box": {
       "Package": "box",
       "Version": "1.2.0",
@@ -133,7 +254,7 @@
       "Package": "box.linters",
       "Version": "0.10.5",
       "Source": "Repository",
-      "Repository": "P3M",
+      "Repository": "RSPM",
       "Requirements": [
         "R",
         "cli",
@@ -235,7 +356,7 @@
       "Package": "cli",
       "Version": "3.6.5",
       "Source": "Repository",
-      "Repository": "P3M",
+      "Repository": "RSPM",
       "Requirements": [
         "R",
         "utils"
@@ -279,6 +400,16 @@
       ],
       "Hash": "8b7222e9d9eb5178eea545c0c4d33fc2"
     },
+    "cpp11": {
+      "Package": "cpp11",
+      "Version": "0.5.3",
+      "Source": "Repository",
+      "Repository": "P3M",
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "af5958631ca49510aff96d0f5c0bbb76"
+    },
     "crayon": {
       "Package": "crayon",
       "Version": "1.5.3",
@@ -304,6 +435,19 @@
         "sys"
       ],
       "Hash": "09fd631e607a236f8cc7f9604db32cb8"
+    },
+    "crosstalk": {
+      "Package": "crosstalk",
+      "Version": "1.2.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R6",
+        "htmltools",
+        "jsonlite",
+        "lazyeval"
+      ],
+      "Hash": "8b008bc619e0bbebb5646b3d37efdad1"
     },
     "curl": {
       "Package": "curl",
@@ -399,11 +543,18 @@
       ],
       "Hash": "962174cf2aeb5b9eea581522286a911f"
     },
+    "farver": {
+      "Package": "farver",
+      "Version": "2.1.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "680887028577f3fa2a81e410ed0d6e42"
+    },
     "fastmap": {
       "Package": "fastmap",
       "Version": "1.2.0",
       "Source": "Repository",
-      "Repository": "P3M",
+      "Repository": "RSPM",
       "Hash": "aa5e1cd11c2d15497494c5292d7ffcc8"
     },
     "fontawesome": {
@@ -433,7 +584,7 @@
       "Package": "generics",
       "Version": "0.1.3",
       "Source": "Repository",
-      "Repository": "P3M",
+      "Repository": "RSPM",
       "Requirements": [
         "R",
         "methods"
@@ -455,11 +606,33 @@
       ],
       "Hash": "b886f9838f82444c47a9962adc5ab8e8"
     },
+    "ggplot2": {
+      "Package": "ggplot2",
+      "Version": "4.0.2",
+      "Source": "Repository",
+      "Repository": "P3M",
+      "Requirements": [
+        "R",
+        "S7",
+        "cli",
+        "grDevices",
+        "grid",
+        "gtable",
+        "isoband",
+        "lifecycle",
+        "rlang",
+        "scales",
+        "stats",
+        "vctrs",
+        "withr"
+      ],
+      "Hash": "24744d322a00a520db329287bf02ce42"
+    },
     "gh": {
       "Package": "gh",
       "Version": "1.4.1",
       "Source": "Repository",
-      "Repository": "P3M",
+      "Repository": "RSPM",
       "Requirements": [
         "R",
         "cli",
@@ -487,12 +660,28 @@
       "Package": "glue",
       "Version": "1.8.0",
       "Source": "Repository",
-      "Repository": "P3M",
+      "Repository": "RSPM",
       "Requirements": [
         "R",
         "methods"
       ],
       "Hash": "5899f1eaa825580172bb56c08266f37c"
+    },
+    "gtable": {
+      "Package": "gtable",
+      "Version": "0.3.6",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "cli",
+        "glue",
+        "grid",
+        "lifecycle",
+        "rlang",
+        "stats"
+      ],
+      "Hash": "de949855009e2d4d0e52a844e30617ae"
     },
     "highr": {
       "Package": "highr",
@@ -521,6 +710,21 @@
       ],
       "Hash": "81d371a9cc60640e74e4ab6ac46dcedc"
     },
+    "htmlwidgets": {
+      "Package": "htmlwidgets",
+      "Version": "1.6.4",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "grDevices",
+        "htmltools",
+        "jsonlite",
+        "knitr",
+        "rmarkdown",
+        "yaml"
+      ],
+      "Hash": "04291cc45198225444a397606810ac37"
+    },
     "httpuv": {
       "Package": "httpuv",
       "Version": "1.6.16",
@@ -540,7 +744,7 @@
       "Package": "httr2",
       "Version": "1.1.2",
       "Source": "Repository",
-      "Repository": "P3M",
+      "Repository": "RSPM",
       "Requirements": [
         "R",
         "R6",
@@ -563,6 +767,20 @@
       "Source": "Repository",
       "Repository": "P3M",
       "Hash": "6154ec2223172bce8162d4153cda21f7"
+    },
+    "isoband": {
+      "Package": "isoband",
+      "Version": "0.3.0",
+      "Source": "Repository",
+      "Repository": "P3M",
+      "Requirements": [
+        "cli",
+        "cpp11",
+        "grid",
+        "rlang",
+        "utils"
+      ],
+      "Hash": "0f9a864bbd7ce0232ad05cb76249cc1a"
     },
     "jquerylib": {
       "Package": "jquerylib",
@@ -600,11 +818,22 @@
       ],
       "Hash": "5a07d8ec459d7b80bd4acca5f4a6e062"
     },
+    "labeling": {
+      "Package": "labeling",
+      "Version": "0.4.3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "graphics",
+        "stats"
+      ],
+      "Hash": "b64ec208ac5bc1852b285f665d6368b3"
+    },
     "later": {
       "Package": "later",
       "Version": "1.4.2",
       "Source": "Repository",
-      "Repository": "P3M",
+      "Repository": "RSPM",
       "Requirements": [
         "Rcpp",
         "rlang"
@@ -625,7 +854,7 @@
       "Package": "lifecycle",
       "Version": "1.0.4",
       "Source": "Repository",
-      "Repository": "P3M",
+      "Repository": "RSPM",
       "Requirements": [
         "R",
         "cli",
@@ -670,7 +899,7 @@
       "Package": "magrittr",
       "Version": "2.0.3",
       "Source": "Repository",
-      "Repository": "P3M",
+      "Repository": "RSPM",
       "Requirements": [
         "R"
       ],
@@ -794,7 +1023,7 @@
       "Package": "promises",
       "Version": "1.3.2",
       "Source": "Repository",
-      "Repository": "P3M",
+      "Repository": "RSPM",
       "Requirements": [
         "R6",
         "Rcpp",
@@ -836,7 +1065,7 @@
       "Package": "rappdirs",
       "Version": "0.3.3",
       "Source": "Repository",
-      "Repository": "P3M",
+      "Repository": "RSPM",
       "Requirements": [
         "R"
       ],
@@ -903,11 +1132,34 @@
       ],
       "Hash": "892124978869b74935dc3934c42bfe5a"
     },
+    "rmarkdown": {
+      "Package": "rmarkdown",
+      "Version": "2.30",
+      "Source": "Repository",
+      "Repository": "P3M",
+      "Requirements": [
+        "R",
+        "bslib",
+        "evaluate",
+        "fontawesome",
+        "htmltools",
+        "jquerylib",
+        "jsonlite",
+        "knitr",
+        "methods",
+        "tinytex",
+        "tools",
+        "utils",
+        "xfun",
+        "yaml"
+      ],
+      "Hash": "efe19db0fde0fff13cea7eec6f695021"
+    },
     "rprojroot": {
       "Package": "rprojroot",
       "Version": "2.0.4",
       "Source": "Repository",
-      "Repository": "P3M",
+      "Repository": "RSPM",
       "Requirements": [
         "R"
       ],
@@ -934,11 +1186,41 @@
       ],
       "Hash": "3fb78d066fb92299b1d13f6a7c9a90a8"
     },
+    "scales": {
+      "Package": "scales",
+      "Version": "1.4.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "R6",
+        "RColorBrewer",
+        "cli",
+        "farver",
+        "glue",
+        "labeling",
+        "lifecycle",
+        "rlang",
+        "viridisLite"
+      ],
+      "Hash": "c5bba8f0d1df8c4b9538a40570798d9b"
+    },
+    "scrypt": {
+      "Package": "scrypt",
+      "Version": "0.1.6",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "Rcpp"
+      ],
+      "Hash": "5669c376aea6546ff938528588101b7a"
+    },
     "shiny": {
       "Package": "shiny",
       "Version": "1.10.0",
       "Source": "Repository",
-      "Repository": "P3M",
+      "Repository": "RSPM",
       "Requirements": [
         "R",
         "R6",
@@ -992,6 +1274,25 @@
         "shiny"
       ],
       "Hash": "802e4786b353a4bb27116957558548d5"
+    },
+    "shinymanager": {
+      "Package": "shinymanager",
+      "Version": "1.0.410",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "DBI",
+        "DT",
+        "R.utils",
+        "R6",
+        "RSQLite",
+        "billboarder",
+        "htmltools",
+        "openssl",
+        "scrypt",
+        "shiny"
+      ],
+      "Hash": "7992f5ecc5e8d40200dc8ba4e97d33eb"
     },
     "sourcetools": {
       "Package": "sourcetools",
@@ -1056,7 +1357,7 @@
       "Package": "sys",
       "Version": "3.4.3",
       "Source": "Repository",
-      "Repository": "P3M",
+      "Repository": "RSPM",
       "Hash": "de342ebfebdbf40477d0758d05426646"
     },
     "testthat": {
@@ -1092,7 +1393,7 @@
       "Package": "tibble",
       "Version": "3.2.1",
       "Source": "Repository",
-      "Repository": "P3M",
+      "Repository": "RSPM",
       "Requirements": [
         "R",
         "fansi",
@@ -1123,11 +1424,21 @@
       ],
       "Hash": "829f27b9c4919c16b593794a6344d6c0"
     },
+    "tinytex": {
+      "Package": "tinytex",
+      "Version": "0.58",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "xfun"
+      ],
+      "Hash": "03af3ad04817f3019de8ee5c73dab807"
+    },
     "usethis": {
       "Package": "usethis",
       "Version": "3.1.0",
       "Source": "Repository",
-      "Repository": "P3M",
+      "Repository": "RSPM",
       "Requirements": [
         "R",
         "cli",
@@ -1179,7 +1490,7 @@
       "Package": "vctrs",
       "Version": "0.6.5",
       "Source": "Repository",
-      "Repository": "P3M",
+      "Repository": "RSPM",
       "Requirements": [
         "R",
         "cli",
@@ -1189,11 +1500,21 @@
       ],
       "Hash": "c03fa420630029418f7e6da3667aac4a"
     },
+    "viridisLite": {
+      "Package": "viridisLite",
+      "Version": "0.4.3",
+      "Source": "Repository",
+      "Repository": "P3M",
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "9380d36888b72faf5ae6c22b44703867"
+    },
     "waldo": {
       "Package": "waldo",
       "Version": "0.6.1",
       "Source": "Repository",
-      "Repository": "P3M",
+      "Repository": "RSPM",
       "Requirements": [
         "R",
         "cli",
@@ -1282,7 +1603,7 @@
       "Package": "zip",
       "Version": "2.3.2",
       "Source": "Repository",
-      "Repository": "P3M",
+      "Repository": "RSPM",
       "Hash": "2f2ac1424654714391fe94dd69e196a9"
     }
   }
